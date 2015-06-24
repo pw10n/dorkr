@@ -36,7 +36,12 @@ class LogSenderHandler(InboundMailHandler):
       if not dork:
         dork = Dork(email=email)
         dork.put()
-      recent_dork = DorkRecord.query(ndb.AND(DorkRecord.dork==dork.key, DorkRecord.timestamp > datetime.utcnow() - timedelta(minutes=15))).get()
+      recent_dork = DorkRecord.query(
+          ndb.AND(
+            DorkRecord.dork==dork.key, 
+            DorkRecord.timestamp > datetime.utcnow() - timedelta(minutes=15)
+            )
+          ).get()
       if not recent_dork: 
         # add dork record
         dork_record = DorkRecord(dork=dork.key)
