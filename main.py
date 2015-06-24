@@ -5,6 +5,7 @@ import webapp2
 import jinja2
 
 import os
+from datetime import datetime,timedelta
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -35,9 +36,11 @@ class LogSenderHandler(InboundMailHandler):
       if not dork:
         dork = Dork(email=email)
         dork.put()
-      # add dork record
-      dork_record = DorkRecord(dork=dork.key)
-      dork_record.put()
+      recent_dork = DorkRecord.query(ndb.AND(DorkRecord.dork==dork.key, DorkRecord.timestamp > datetime.utcnow() - timedelta(minutes=15))).get()
+      if not recent_dork: 
+        # add dork record
+        dork_record = DorkRecord(dork=dork.key)
+        dork_record.put()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
