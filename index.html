@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html><body>
+  <h1>Dorks</h1>
+  {% if dorks and dorks.count() > 0%}
+  <ul>
+    {% for dork in dorks %}
+    <li>{{ dork.getCleanEmail() }} has been dorked {{ dork.count }} times.</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  No dorks yet.
+  {% endif %}
+  <h2>How to dork someone</h2>
+  <p>If someone's left their comptuer unlocked, simply email dorkr@warp2.us with the subject "I'm a Dork!".</p>
+</html>
+{% endautoescape %}
