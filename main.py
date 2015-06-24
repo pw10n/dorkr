@@ -51,4 +51,4 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
   LogSenderHandler.mapping(),
   ('/', MainPage),
-], debug=True)
+], debug=False)
