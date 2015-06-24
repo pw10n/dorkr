@@ -22,6 +22,7 @@ class Dork(ndb.Model):
 
 class DorkRecord(ndb.Model):
   dork = ndb.KeyProperty(kind=Dork)
+  subject = ndb.StringProperty(indexed=False)
   timestamp = ndb.DateTimeProperty(auto_now_add=True)
 
 class LogSenderHandler(InboundMailHandler):
@@ -44,7 +45,7 @@ class LogSenderHandler(InboundMailHandler):
           ).get()
       if not recent_dork: 
         # add dork record
-        dork_record = DorkRecord(dork=dork.key)
+        dork_record = DorkRecord(dork=dork.key, subject=mail_message.subject)
         dork_record.put()
 
 class MainPage(webapp2.RequestHandler):
